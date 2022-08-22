@@ -18,6 +18,6 @@ def update(data):
 
 fig, ax = plt.subplots()
 mat = ax.matshow(grid)
-ani = animation.FuncAnimation(fig, update, interval=250,
+ani = animation.FuncAnimation(fig, update, interval=100,
                               save_count=5000)
 plt.show()

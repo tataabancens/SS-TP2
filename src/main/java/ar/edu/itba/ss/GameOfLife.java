@@ -9,31 +9,23 @@ import java.util.Random;
 
 public class GameOfLife {
     private final List<Cell> cells;
-    private final int M;
+    private int M;
     private int t;
-    private JSONArray maps = new JSONArray();
+    private JSONArray maps;
 
     public GameOfLife(int M) {
         this.cells = new ArrayList<>();
         this.M = M;
-        t = 0;
-        // Initialize cells
-        initializeCells();
+        this.t = 0;
+        maps = new JSONArray();
     }
 
-    private void initializeCells() {
+    public void initializeCells() {
         Random r = new Random();
         for(int i = 0; i < getM(); i++) {
             for(int j = 0; j < getM(); j++) {
-                cells.add(new Cell(r.nextBoolean(), i, j));
+                cells.add(new Cell(r.nextBoolean(), j, i));
             }
-        }
-    }
-
-    public void randomizeMap() {
-        for (Cell c : getCells()) {
-            Random r = new Random();
-            c.setLife(r.nextBoolean());
         }
     }
 
@@ -51,7 +43,7 @@ public class GameOfLife {
         for (int i = 0; i < getM(); i++) {
             JSONArray col = new JSONArray();
             for (int j = 0; j < getM(); j++) {
-                if (getCells().get(i + j * M).isAlive()) {
+                if (getCells().get(i * M + j).isAlive()) {
                     col.add(255);
                 } else {
                     col.add(0);
@@ -71,14 +63,15 @@ public class GameOfLife {
     public void printMap() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < getM(); i++) {
+            sb.append("|");
             for (int j = 0; j < getM(); j++) {
                 if (cells.get(i + j * getM()).isAlive()) {
-                    sb.append("*");
+                    sb.append("0");
                 } else {
-                    sb.append(" ");
+                    sb.append("-");
                 }
             }
-            sb.append("\n");
+            sb.append("|\n");
         }
         System.out.println(sb);
     }
@@ -119,5 +112,8 @@ public class GameOfLife {
 
     public int getT() {
         return t;
+    }
+    public void setM(int M) {
+        this.M = M;
     }
 }
