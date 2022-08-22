@@ -51,7 +51,12 @@ public class GameOfLife {
         for (int i = 0; i < getM(); i++) {
             JSONArray col = new JSONArray();
             for (int j = 0; j < getM(); j++) {
-                col.add(getCells().get(i + j * M).isAlive());
+                if (getCells().get(i + j * M).isAlive()) {
+                    col.add(255);
+                } else {
+                    col.add(0);
+                }
+                ;
             }
             rows.add(col);
         }

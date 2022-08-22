@@ -12,13 +12,13 @@ public class App
 {
     public static void main( String[] args )
     {
-        GameOfLife gof = new GameOfLife(10);
+        GameOfLife gof = new GameOfLife(100);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             gof.next();
         }
         // Store results
-        String filePath = "maps.json"; // LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
+        String filePath = "python/maps.json"; //
         App.writeToFile(filePath, gof.getMaps().toJSONString());
     }
 
