@@ -12,12 +12,15 @@ public class GameOfLife {
     private int M;
     private int t;
     private JSONArray maps;
+    private JSONArray cellsTimeArray;
+    private int aliveCells;
 
     public GameOfLife(int M) {
         this.cells = new ArrayList<>();
         this.M = M;
         this.t = 0;
         maps = new JSONArray();
+        cellsTimeArray = new JSONArray();
     }
 
     public void initializeCells() {
@@ -76,7 +79,6 @@ public class GameOfLife {
         System.out.println(sb);
     }
 
-
     private void calculateNeighbours() {
         for(Cell c : getCells()) {
             NeighbourCells nc = new NeighbourCells(c, M);
@@ -90,16 +92,28 @@ public class GameOfLife {
     }
 
     private void updateMap() {
+        int aliveCount = 0;
         for(Cell c : getCells()) {
             if (c.isAlive()) {
                 if (c.getNeighbours() < 2 || c.getNeighbours() > 3) {
                     c.setLife(false);
                 }
+                aliveCount++;
             } else if (c.getNeighbours() == 3) {
                 c.setLife(true);
+                aliveCount++;
             }
             c.resetNeighbours();
         }
+        setAliveCells(aliveCount);
+    }
+
+    public int getAliveCells() {
+        return aliveCells;
+    }
+
+    public void setAliveCells(int aliveCells) {
+        this.aliveCells = aliveCells;
     }
 
     public int getM() {

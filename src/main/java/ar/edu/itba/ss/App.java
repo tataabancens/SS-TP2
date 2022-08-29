@@ -30,8 +30,11 @@ public class App
 //        gof.addMapToJson();
 
         gof.initializeCells();
+        long t0 = System.currentTimeMillis();
         for (int i = 0; i < 1000; i++) {
             gof.next();
+            long delta = System.currentTimeMillis() - t0;
+            int aliveCells = gof.getAliveCells();
 //            gof.printMap();
         }
         // Store results
