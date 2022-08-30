@@ -5,7 +5,6 @@ import org.apache.commons.cli.*;
 public class FlagParser {
     protected static RuleSet ruleSet = RuleSet.DEFAULT_RULE;
     protected static Integer timeInterval = 100;
-    protected static String staticFile;
     protected static String dynamicFile;
 
     private static final String PARAM_T = "t";

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ConfigParser {
-    public static int xLim;
-    public static int yLim;
-    public static int zLim = 1;
+    public static int xLim = 30;
+    public static int yLim = 30;
+    public static int zLim = 30;
     public static double livingTotalPercentage = 0.0;
     public static List<char[][]> board = new ArrayList<>();
 
