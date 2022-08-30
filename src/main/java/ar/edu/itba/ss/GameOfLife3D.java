@@ -11,8 +11,8 @@ public class GameOfLife3D {
         Map<RuleSet, BiPredicate<Character, Integer>> tmp = new HashMap<>();
 
         // Ruleset 1
-        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n >= 4 && n <= 5;
-        BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n == 5;
+        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n <= 5 && n >= 4;
+        BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n == 3;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive45.or(deadToLive55));
 
         // Ruleset 2

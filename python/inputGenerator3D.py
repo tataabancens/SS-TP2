@@ -6,9 +6,9 @@ import random as rnd
 # Generates the dynamic file configuration given:
 #   - filename -> Name of the dynamic file to be used
 #   - area_length -> Total length of the area of study
-def generate_dynamic_file(filename, points):
+def generate_dynamic_file(filename, points, area_length):
     f = open(filename, 'w')
-
+    f.write('{}\n'.format(area_length))
     # We provide only the dynamic configuration at time 0
     f.write('0\n')
 
@@ -19,7 +19,7 @@ def generate_dynamic_file(filename, points):
         else:
             f.write('{} {}\n'.format(p[0], p[1]))
     f.close()
-    
+
 # Generates 3D coordinates
 def generate_3d_coordinates(n):
     points = []
@@ -40,7 +40,7 @@ def offset_3d_coordinates(points, n, sn):
 
 # Generate the dynamic file
 def generate_files(area_length, dimensions, percentage, points):
-    generate_dynamic_file('../input/dynamic.txt', points)
+    generate_dynamic_file('../input/dynamic.txt', points, area_length)
 
 # main() function
 def main():
