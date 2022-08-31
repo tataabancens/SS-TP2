@@ -38,8 +38,8 @@ def generate_3d_coordinates(n):
     return points
     
 # Offsets the 3d points in order to center them in the space
-def offset_3d_coordinates(points, n, sn):
-    offset = n - int((n - sn)/2) - sn
+def offset_3d_coordinates(points, arealength, inputAreaLength):
+    offset = arealength - int((arealength - inputAreaLength)/2) - inputAreaLength
     for p in points:
         p[0] += offset
         p[1] += offset

@@ -6,3 +6,11 @@
 target/classes/input.txt
 
 input/dynamic.txt
+
+outputSimulation/living_percent_vs_time.txt
+
+outputSimulation/radius_vs_time.txt
+
+outputSimulation/
+
+input/static.txt

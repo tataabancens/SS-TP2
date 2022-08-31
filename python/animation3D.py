@@ -6,7 +6,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import matplotlib.animation as animation
 
 # Name of the dynamic and static files to be used
-DYNAMIC_FILE = "./../input/dynamic.txt"
+DYNAMIC_FILE = "./input/dynamic.txt"
 
 # Dimensions for the plot
 X_LIM, Y_LIM, Z_LIM = 60, 60, 60

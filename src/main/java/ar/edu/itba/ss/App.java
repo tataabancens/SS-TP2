@@ -70,11 +70,11 @@ public class App
             List<Double> radiusVsTime = new ArrayList<>();
             livingVsTime.add(ConfigParser.livingTotalPercentage);
             radiusVsTime.add(initialMaxDistance);
-            boolean breakFlag = true;
-            for (int i = 1; i < FlagParser.timeInterval; i++) {
+            boolean flag = true;
+            for (int i = 1; i < FlagParser.timeInterval && flag; i++) {
                 // Simulating the step
-                pointsToWrite = gol.simulateStep(breakFlag);
-                if(!breakFlag)
+                pointsToWrite = gol.simulateStep();
+                flag = gol.isReachedMax();
 
 
                 livingVsTime.add(gol.getLivingPercentage());
