@@ -74,7 +74,7 @@ public class GameOfLife3D {
         this.maxDistance = 0;
         this.livingCellsCount = 0;
 
-        for (int z = 0; z < this.zLim; z++) {
+        for (int z = 0; z < this.zLim ; z++) {
             for (int x = 0; x < this.xLim; x++) {
                 for (int y = 0; y < this.yLim; y++) {
                     // Calculating the amount of live neighbours
@@ -101,13 +101,13 @@ public class GameOfLife3D {
 
         // Setting the new dead cells
         deadCells.forEach(cell -> {
-            this.livingCellsCount++;
             this.board[cell[2]][cell[0]][cell[1]] = 0;//cell[2] = z,cell[0] = x, cell[1] = y
         });
 
         // Setting the new active cells
         activeCells.forEach(cell -> {
             this.board[cell[2]][cell[0]][cell[1]] = 1;
+            this.livingCellsCount++;
         });
 
         return activeCells;
@@ -160,7 +160,7 @@ public class GameOfLife3D {
     }
 
     private double getDistanceToCenter(final int x, final int y, final int z) {
-        return Math.sqrt(Math.pow(x - this.xLim / 2.0, 2) + Math.pow(y - this.yLim / 2.0, 2) + Math.pow(z - this.zLim / 2.0, 2));
+        return (x - this.xLim / 2.0) + (y - this.yLim / 2.0) + (z - this.zLim / 2.0);
     }
 
     public double getMaxDistance() {

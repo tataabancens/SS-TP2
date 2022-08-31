@@ -4,10 +4,16 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
 public class App3D {
+    private final static String RADIUS_FILE = "./outputSimulation/radius_vs_time.txt";
+    private final static String LIVING_PERCENT_FILE = "./outputSimulation/living_percent_vs_time.txt";
+
     public static void main(String[] args) {
         // Parsing the options
         FlagParser.ParseOptions(args);
@@ -29,14 +35,23 @@ public class App3D {
         List<int[]> pointsToWrite;
 
         // To create the graph evolution vs time
+        List<Double> livingVsTime = new ArrayList<>();
+        List<Double> radiusVsTime = new ArrayList<>();
+        livingVsTime.add(ConfigParser.livingTotalPercentage);
+        radiusVsTime.add(initialMaxDistance);
 
         for (int i = 1; i < FlagParser.timeInterval; i++) {
             // Simulating the step
             pointsToWrite = gol.simulateStep();
 
+            livingVsTime.add(gol.getLivingPercentage());
+            radiusVsTime.add(gol.getMaxDistance());
+
             // Writing results to file
             GenerateOutputFile(pointsToWrite, i);
         }
+        AddToEvolutionStatisticsFile(ConfigParser.livingLimitedPercentage, FlagParser.ruleSet, livingVsTime, LIVING_PERCENT_FILE);
+        AddToEvolutionStatisticsFile(ConfigParser.livingLimitedPercentage, FlagParser.ruleSet, radiusVsTime, RADIUS_FILE);
     }
 
     private static void GenerateOutputFile(List<int[]> cells, int iteration) {
@@ -60,6 +75,22 @@ public class App3D {
             System.out.println("File not found");
         } catch (IOException e) {
             System.out.println("Error writing to the output file");
+        }
+    }
+
+    private static void AddToEvolutionStatisticsFile(double initialPercentage, RuleSet rule, List<Double> evolution, String file) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%d %.3f %d",3, initialPercentage, rule.getRuleId()));
+        for (Double aDouble : evolution) {
+            sb.append(String.format(" %.3f", aDouble));
+        }
+        sb.append("\n");
+        try {
+            Files.write(Paths.get(file), sb.toString().getBytes(), StandardOpenOption.APPEND);
+        } catch (FileNotFoundException e) {
+            System.out.println(file + " not found");
+        } catch (IOException e) {
+            System.out.println("Error writing to the statistics file: " + file);
         }
     }
 }

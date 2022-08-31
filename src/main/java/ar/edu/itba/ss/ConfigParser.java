@@ -10,11 +10,28 @@ public class ConfigParser {
     public static int xLim = 60;
     public static int yLim = 60;
     public static int zLim = 60;
+    public static double livingLimitedPercentage;
     public static double livingTotalPercentage = 0.0;
     public static List<char[][]> board = new ArrayList<>();
 
     public static void ParseConfiguration(String dynamicFileName) throws FileNotFoundException {
         ParseDynamicData(dynamicFileName);
+    }
+
+    private static void ParseStaticData(String staticFileName) throws FileNotFoundException {
+        File file = new File(staticFileName);
+        Scanner sc = new Scanner(file);
+
+        // Parsing the x limit of the area
+        xLim = sc.nextInt();
+
+        // Parsing the y limit of the area
+        yLim = sc.nextInt();
+
+        // Parsing the limit of the area if it has any
+        zLim = sc.nextInt();
+        
+        livingLimitedPercentage = sc.nextDouble();
     }
 
     private static void ParseDynamicData(String dynamicFileName) throws FileNotFoundException {
