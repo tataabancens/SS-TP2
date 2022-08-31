@@ -106,8 +106,8 @@ public class GameOfLife3D {
 
         // Setting the new active cells
         activeCells.forEach(cell -> {
-            this.board[cell[2]][cell[0]][cell[1]] = 1;
             this.livingCellsCount++;
+            this.board[cell[2]][cell[0]][cell[1]] = 1;
         });
 
         return activeCells;

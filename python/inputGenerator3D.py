@@ -48,8 +48,8 @@ def offset_3d_coordinates(points, n, sn):
 
 # Generate the dynamic file
 def generate_files(area_length, dimensions, percentage, points):
-    generate_static_file('../input/static.txt', area_length, dimensions, percentage)
-    generate_dynamic_file('../input/dynamic.txt', points, area_length)
+    generate_static_file('./input/static.txt', area_length, dimensions, percentage)
+    generate_dynamic_file('./input/dynamic.txt', points, area_length)
 
 # main() function
 def main():

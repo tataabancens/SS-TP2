@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class App3D {
     private final static String RADIUS_FILE = "./outputSimulation/radius_vs_time.txt";
@@ -80,9 +81,9 @@ public class App3D {
 
     private static void AddToEvolutionStatisticsFile(double initialPercentage, RuleSet rule, List<Double> evolution, String file) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%d %.3f %d",3, initialPercentage, rule.getRuleId()));
+        sb.append(String.format(Locale.US,"%.3f %d", initialPercentage, rule.getRuleId()));
         for (Double aDouble : evolution) {
-            sb.append(String.format(" %.3f", aDouble));
+            sb.append(String.format(Locale.US, " %.3f", aDouble));
         }
         sb.append("\n");
         try {
