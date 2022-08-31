@@ -1,4 +1,4 @@
-package ar.edu.itba.ss;
+package ar.edu.itba.ss.gof2D;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,6 +15,9 @@ public class App
 {
     public static void main( String[] args )
     {
+        // TODO: Falta calcular la distancia y realizar los observables, porcentaje inicial vs porcentaje final
+        // TODO: Y ademas Porcentaje de particulas vs tiempo, ver cuando se estabiliza
+
         // Locating inputs.txt in resources
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("input.txt");
@@ -25,21 +28,19 @@ public class App
 
         // Initiate setup
         Scanner scanner = new Scanner(is);
-        GameOfLife gof = new GameOfLife(250);
+        GameOfLife gof = new GameOfLife(100);
 //        readTxt(gof, scanner);
-//        gof.addMapToJson();
-
         gof.initializeCells();
-        long t0 = System.currentTimeMillis();
+
+        GofPrinter printer = new GofPrinter();
+        printJsons(gof, printer);
+
         for (int i = 0; i < 1000; i++) {
             gof.next();
-            long delta = System.currentTimeMillis() - t0;
-            int aliveCells = gof.getAliveCells();
-//            gof.printMap();
+            printJsons(gof, printer);
         }
         // Store results
-        String filePath = "python/maps.json"; //
-        App.writeToFile(filePath, gof.getMaps().toJSONString());
+        writeJsons(printer);
     }
 
     private static void writeToFile(String filepath, String toWrite) {
@@ -55,6 +56,19 @@ public class App
             System.out.println("Failed");
         }
     }
+
+    public static void printJsons(GameOfLife gof, GofPrinter printer) {
+        printer.addMapToJson(gof);
+        printer.aliveCellsToJson(gof);
+        printer.distanceTArrayToJson(gof);
+    }
+
+    public static void writeJsons(GofPrinter printer) {
+        App.writeToFile("python/gof2D/results/maps.json", printer.getMaps().toJSONString());
+        App.writeToFile("python/gof2D/results/aliveCells.json", printer.getAliveCellsTArray().toJSONString());
+        App.writeToFile("python/gof2D/results/maxDistance.json", printer.getDistanceTArray().toJSONString());
+    }
+
     public static void readTxt(GameOfLife gof, Scanner scanner) {
         // Read N value
         if (scanner.hasNextLine()) {
