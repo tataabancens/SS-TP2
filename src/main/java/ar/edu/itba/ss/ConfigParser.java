@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ConfigParser {
-    public static int xLim = 60;
-    public static int yLim = 60;
-    public static int zLim = 60;
+    public static int xLim;
+    public static int yLim;
+    public static int zLim;
     public static double livingLimitedPercentage;
     public static double livingTotalPercentage = 0.0;
     public static List<char[][]> board = new ArrayList<>();
 
-    public static void ParseConfiguration(String dynamicFileName) throws FileNotFoundException {
+    public static void ParseConfiguration(String dynamicFileName, String staticFileName) throws FileNotFoundException {
+        ParseStaticData(staticFileName);
         ParseDynamicData(dynamicFileName);
     }
 
@@ -68,4 +69,5 @@ public class ConfigParser {
         double totalCells = xLim * yLim * zLim;
         livingTotalPercentage = ((double)livingCells / totalCells) * 100.0;
     }
+
 }

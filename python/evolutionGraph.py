@@ -80,4 +80,4 @@ for percentage in stats:
             #Labelling the lines
             plt.legend()
 
-        plt.savefig('../images/' + y_type + str(int(float(percentage))) + '.png')
+        plt.savefig('./images/' + y_type + str(int(float(percentage))) + '.png')
