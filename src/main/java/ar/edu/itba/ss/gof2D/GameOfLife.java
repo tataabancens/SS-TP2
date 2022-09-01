@@ -12,24 +12,25 @@ public class GameOfLife {
     private final CenterPoint cp;
     private int M;
     private int t;
+    private int prob;
 
     private int aliveCells = 0;
     private int maxDistance = 0;
 
-    public GameOfLife(int M) {
+    public GameOfLife(int M, int prob) {
         this.cells = new ArrayList<>();
         this.M = M;
         this.t = 0;
         this.cp = new CenterPoint(M);
+        this.prob = prob;
     }
 
     public void initializeCells() {
-        Random r = new Random();
         for(int i = 0; i < getM(); i++) {
             for(int j = 0; j < getM(); j++) {
-                Cell c = new Cell(r.nextBoolean(), j, i);
-                if (distanceToCenter(c) < M / 4) {
-                    c.setLife(getRandomBoolean(0.5f));
+                Cell c = new Cell(j, i);
+                if (distanceToCenter(c) < 10) {
+                    c.setLife(getRandomBoolean(prob));
                 } else {
                     c.setLife(false);
                 }
@@ -38,8 +39,8 @@ public class GameOfLife {
         }
     }
 
-    static boolean getRandomBoolean(float probability) {
-        double randomValue = Math.random();
+    static boolean getRandomBoolean(int probability) {
+        double randomValue = Math.random() * 100;
         return randomValue <= probability;
     }
 
@@ -86,14 +87,48 @@ public class GameOfLife {
 
     private void updateMap() {
         for(Cell c : getCells()) {
-            if (c.isAlive()) {
-                if (c.getNeighbours() < 2 || c.getNeighbours() > 3) {
-                    c.setLife(false);
-                }
-            } else if (c.getNeighbours() == 3) {
-                c.setLife(true);
-            }
+            rule1(c);
+//            rule2(c);
+//            rule3(c);
             c.resetNeighbours();
+        }
+    }
+
+    public void rule1(Cell c) {
+        if (c.isAlive()) {
+            if (c.getNeighbours() < 2 || c.getNeighbours() > 3) {
+                c.setLife(false);
+            }
+        } else if (c.getNeighbours() == 3) {
+            c.setLife(true);
+        }
+    }
+
+    public boolean stopCondition() {
+        return maxDistance > M / 2 || aliveCells == 0;
+    }
+
+    public boolean isStable() {
+        return false;
+    }
+
+    public void rule2(Cell c) {
+        if (c.isAlive()) {
+            if (c.getNeighbours() > 4) {
+                c.setLife(false);
+            }
+        } else if (c.getNeighbours() > 4) {
+            c.setLife(true);
+        }
+    }
+
+    public void rule3(Cell c) {
+        if (c.isAlive()) {
+            if (c.getNeighbours() > 0) {
+                c.setLife(false);
+            }
+        } else if (c.getNeighbours() > 1) {
+            c.setLife(true);
         }
     }
 
