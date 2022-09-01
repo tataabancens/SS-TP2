@@ -9,7 +9,7 @@ import random as rnd
 def generate_dynamic_file(filename, points, area_length):
     f = open(filename, 'w')
     # We provide only the dynamic configuration at time 0
-    f.write('0\n')
+    f.write('{}\n\n'.format(len(points)))
 
     # Adding the randomly generated
     for p in points:
@@ -49,7 +49,7 @@ def offset_3d_coordinates(points, arealength, inputAreaLength):
 # Generate the dynamic file
 def generate_files(area_length, dimensions, percentage, points):
     generate_static_file('./input/static.txt', area_length, dimensions, percentage)
-    generate_dynamic_file('./input/dynamic.txt', points, area_length)
+    generate_dynamic_file('./input/dynamic.xyz', points, area_length)
 
 # main() function
 def main():
@@ -84,7 +84,7 @@ def main():
     rnd.shuffle(points)
 
     # Number of points to be chosen
-    target_points_count = int(len(points) * (float(args.percentage)/100))
+    target_points_count = int(int(math.pow(int(args.input_area_length), 3)) * (float(args.percentage)/100))
 
     # Choosing the percentage of points
     chosen_points = points[0:target_points_count]
