@@ -6,12 +6,13 @@ import java.util.function.BiPredicate;
 public class GameOfLife3D {
 
     private static final Map<RuleSet, BiPredicate<Character, Integer>> RULES;
+    private boolean reachedMax = true;
 
     static {
         Map<RuleSet, BiPredicate<Character, Integer>> tmp = new HashMap<>();
 
         // Ruleset 1
-        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n <= 5 && n >= 4;
+        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n <= 3 && n >= 2;
         BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n == 3;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive45.or(deadToLive55));
 
@@ -21,8 +22,8 @@ public class GameOfLife3D {
         tmp.put(RuleSet.RULE_2, liveToLive16.or(deadToLive6));
 
         // Ruleset 3
-        BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && n >= 2 && n <= 3;
-        BiPredicate<Character, Integer> deadToLive3 = (s, n) -> s == 0 && n == 3;
+        BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && n < 12;
+        BiPredicate<Character, Integer> deadToLive3 = (s, n) -> s == 0 && n > 6;
         tmp.put(RuleSet.RULE_3, liveToLive23.or(deadToLive3));
 
         RULES = Collections.unmodifiableMap(tmp);
@@ -91,6 +92,9 @@ public class GameOfLife3D {
                         // Calculating the distance and checking if greater than max
                         distanceToCenter = this.getDistanceToCenter(x, y, z);
                         this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                        if(this.maxDistance >= xLim){
+                            reachedMax = false;
+                        }
                     } else if (this.board[z][x][y] == 1){
                         // This are the cells that die
                         deadCells.add(new int[]{x, y, z});
@@ -174,6 +178,14 @@ public class GameOfLife3D {
     private static int possibleNegative(int a, int b){
         int module = a % b;
         return module >= 0 ? module : module + b;
+    }
+
+    public boolean isReachedMax() {
+        return reachedMax;
+    }
+
+    public void setReachedMax(boolean reachedMax) {
+        this.reachedMax = reachedMax;
     }
 
     public double calculateMaxDistance() {

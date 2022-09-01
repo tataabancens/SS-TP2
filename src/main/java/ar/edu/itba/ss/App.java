@@ -81,7 +81,7 @@ public class App
                 radiusVsTime.add(gol.getMaxDistance());
 
                 // Writing results to file
-                GenerateOutputFile(pointsToWrite, i);
+                GenerateOutputFile(pointsToWrite, ConfigParser.xLim);
             }
             AddToEvolutionStatisticsFile(ConfigParser.livingLimitedPercentage, FlagParser.ruleSet, livingVsTime, LIVING_PERCENT_FILE);
             AddToEvolutionStatisticsFile(ConfigParser.livingLimitedPercentage, FlagParser.ruleSet, radiusVsTime, RADIUS_FILE);
@@ -122,22 +122,22 @@ public class App
             }
         }
     }
-    private static void GenerateOutputFile(List<int[]> cells, int iteration) {
+    private static void GenerateOutputFile(List<int[]> cells, int limit) {
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(FlagParser.dynamicFile, true));
-            bf.append(String.format("%d\n", iteration));
+            bf.append(String.format("%d\n\n", cells.size()+8));
 
             // Creating the output for the file
+            bf.append(String.format("0 0 0\n" +"0 0 %d\n" + "%d 0 0\n" + "%d 0 %d\n" + "0 %d 0\n" + "0 %d %d\n" + "%d %d %d\n" + "%d %d 0\n", limit,limit,limit,limit,limit,limit,limit,limit,limit,limit,limit,limit));
             cells.forEach(cell -> {
                 try {
                     if (cell.length == 3) {
-                        bf.append(String.format("%d %d %d\n", cell[0], cell[1], cell[2]));
+                        bf.append(String.format("%d %d %d \n", cell[0], cell[1], cell[2]));
                     }
                 } catch (IOException e) {
                     System.out.println("Error writing to the output file");
                 }
             });
-
             bf.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
