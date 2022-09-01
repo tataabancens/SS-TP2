@@ -35,6 +35,7 @@ public class GameOfLife3D {
     private final RuleSet rule;
     private double maxDistance = 0;
     private int livingCellsCount = 0;
+    private boolean reachedMax = false;
     private int totalCells;
 
     public GameOfLife3D(List<char[][]> layers, RuleSet ruleId) {
@@ -90,6 +91,9 @@ public class GameOfLife3D {
 
                         // Calculating the distance and checking if greater than max
                         distanceToCenter = this.getDistanceToCenter(x, y, z);
+                        if(distanceToCenter>= xLim){
+                            reachedMax = true;
+                        }
                         this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
                     } else if (this.board[z][x][y] == 1){
                         // This are the cells that die
@@ -111,6 +115,14 @@ public class GameOfLife3D {
         });
 
         return activeCells;
+    }
+
+    public boolean isReachedMax() {
+        return reachedMax;
+    }
+
+    public void setReachedMax(boolean reachedMax) {
+        this.reachedMax = reachedMax;
     }
 
     /**
