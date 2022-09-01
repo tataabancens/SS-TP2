@@ -1,11 +1,7 @@
 package ar.edu.itba.ss.gof2D;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GameOfLife {
     private final List<Cell> cells;
@@ -13,16 +9,18 @@ public class GameOfLife {
     private int M;
     private int t;
     private int prob;
+    private int ruleId;
 
     private int aliveCells = 0;
     private int maxDistance = 0;
 
-    public GameOfLife(int M, int prob) {
+    public GameOfLife(int M, int prob, int ruleId) {
         this.cells = new ArrayList<>();
         this.M = M;
         this.t = 0;
         this.cp = new CenterPoint(M);
         this.prob = prob;
+        this.ruleId = ruleId;
     }
 
     public void initializeCells() {
@@ -87,9 +85,22 @@ public class GameOfLife {
 
     private void updateMap() {
         for(Cell c : getCells()) {
-            rule1(c);
-//            rule2(c);
-//            rule3(c);
+            switch (ruleId) {
+                case(0): {
+                    rule1(c);
+                    break;
+                }
+                case(1): {
+                    rule2(c);
+                    break;
+                }
+                case(2): {
+                    rule3(c);
+                    break;
+                }
+                default:
+                    break;
+            }
             c.resetNeighbours();
         }
     }
@@ -105,7 +116,7 @@ public class GameOfLife {
     }
 
     public boolean stopCondition() {
-        return maxDistance > M / 2 || aliveCells == 0;
+        return maxDistance > M / 2 || aliveCells == 0 ;
     }
 
     public boolean isStable() {
@@ -133,7 +144,7 @@ public class GameOfLife {
     }
 
     private int distanceToCenter(Cell cell) {
-        return (int) Math.floor(Math.abs(cell.getXCord() - getCenter().getXCord()) + Math.abs(cell.getYCord() - getCenter().getYCord()));
+        return Math.abs(cell.getXCord() - getCenter().getXCord()) + Math.abs(cell.getYCord() - getCenter().getYCord());
     }
 
     public CenterPoint getCenter() {
@@ -141,17 +152,17 @@ public class GameOfLife {
     }
 
     private static class CenterPoint {
-        private final float xCord, yCord;
+        private final int xCord, yCord;
 
         public CenterPoint(int M) {
-            xCord = (float) M / 2;
-            yCord = (float) M / 2;
+            xCord = M / 2;
+            yCord = M / 2;
         }
 
-        public float getXCord() {
+        public int getXCord() {
             return xCord;
         }
-        public float getYCord() {
+        public int getYCord() {
             return yCord;
         }
     }
@@ -193,4 +204,9 @@ public class GameOfLife {
     public void setM(int M) {
         this.M = M;
     }
+
+    public int getProb() {
+        return prob;
+    }
+
 }

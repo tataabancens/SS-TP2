@@ -7,11 +7,31 @@ public class GofPrinter {
     private JSONArray maps;
     private JSONArray aliveCellsTArray;
     private JSONArray distanceTArray;
+    private JSONArray finalMaxDistances;
+    private JSONArray finalAliveCells;
 
     public GofPrinter() {
         aliveCellsTArray = new JSONArray();
         distanceTArray = new JSONArray();
+        finalMaxDistances = new JSONArray();
+        finalAliveCells = new JSONArray();
         maps = new JSONArray();
+    }
+
+    public void addFinalDistanceToJson(DataAccumulator data) {
+        JSONObject jsMaxDistance = new JSONObject();
+        jsMaxDistance.put("maxDistanceProm", data.getMaxDistanceProm());
+        jsMaxDistance.put("N", data.getProb());
+        jsMaxDistance.put("error", data.getMaxDistanceError());
+        finalMaxDistances.add(jsMaxDistance);
+    }
+
+    public void addFinalAliveCellsToJson(DataAccumulator data) {
+        JSONObject jsAliveCells = new JSONObject();
+        jsAliveCells.put("aliveCellsProm", data.getAliveCellsProm());
+        jsAliveCells.put("N", data.getProb());
+        jsAliveCells.put("error", data.getFinalAliveError());
+        finalAliveCells.add(jsAliveCells);
     }
 
     public void addMapToJson(GameOfLife gof) {
@@ -57,5 +77,13 @@ public class GofPrinter {
 
     public JSONArray getDistanceTArray() {
         return distanceTArray;
+    }
+
+    public JSONArray getFinalMaxDistances() {
+        return finalMaxDistances;
+    }
+
+    public JSONArray getFinalAliveCells() {
+        return finalAliveCells;
     }
 }
