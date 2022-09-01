@@ -7,6 +7,7 @@ target/classes/input.txt
 
 input/dynamic.txt
 
+<<<<<<< HEAD
 outputSimulation/living_percent_vs_time.txt
 
 outputSimulation/radius_vs_time.txt
@@ -14,3 +15,8 @@ outputSimulation/radius_vs_time.txt
 outputSimulation/
 
 input/static.txt
+=======
+target/classes/
+
+graphs/
+>>>>>>> graphicsGof2D

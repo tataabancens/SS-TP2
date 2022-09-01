@@ -1,4 +1,4 @@
-package ar.edu.itba.ss;
+package ar.edu.itba.ss.gof2D;
 
 import java.util.Objects;
 
@@ -11,6 +11,10 @@ public class Cell {
     public Cell(boolean isAlive, int xCord, int yCord) {
         this.alive = isAlive;
         this.neighbours = 0;
+        this.xCord = xCord;
+        this.yCord = yCord;
+    }
+    public Cell(int xCord, int yCord) {
         this.xCord = xCord;
         this.yCord = yCord;
     }

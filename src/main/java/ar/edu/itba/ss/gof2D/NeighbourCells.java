@@ -1,4 +1,4 @@
-package ar.edu.itba.ss;
+package ar.edu.itba.ss.gof2D;
 
 public class NeighbourCells {
     int xStart, xEnd, yStart, yEnd;
