@@ -1,14 +1,10 @@
 package ar.edu.itba.ss.gof2D;
 
-import javax.xml.crypto.Data;
+
 import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
@@ -159,3 +155,4 @@ public class App
         }
     }
 }
+

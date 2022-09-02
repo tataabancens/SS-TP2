@@ -8,16 +8,24 @@ import random as rnd
 #   - area_length -> Total length of the area of study
 def generate_dynamic_file(filename, points, area_length):
     f = open(filename, 'w')
-    f.write('{}\n'.format(area_length))
     # We provide only the dynamic configuration at time 0
-    f.write('0\n')
-
+    f.write('{}\n\n'.format(len(points)))
     # Adding the randomly generated
     for p in points:
+        distance_from_center = int(math.sqrt(math.pow(p[0]-area_length/2,2)+math.pow(p[1]-area_length/2,2)+math.pow(p[2]-area_length/2,2)))
         if len(p) == 3:
-            f.write('{} {} {}\n'.format(p[0], p[1], p[2]))
-        else:
-            f.write('{} {}\n'.format(p[0], p[1]))
+            f.write('{} {} {} {}\n'.format(p[0], p[1], p[2],distance_from_center ))
+    f.close()
+
+def generate_static_file(filename, area_length, dimensions, percentage):
+    f = open(filename, 'w')
+
+    # Adding the dimensions of the area
+    f.write('{} {} {}\n'.format(area_length, area_length, area_length))
+
+    # Adding the percentage
+    f.write('{}\n'.format(percentage))
+
     f.close()
 
 # Generates 3D coordinates
@@ -30,8 +38,8 @@ def generate_3d_coordinates(n):
     return points
     
 # Offsets the 3d points in order to center them in the space
-def offset_3d_coordinates(points, n, sn):
-    offset = n - int((n - sn)/2) - sn
+def offset_3d_coordinates(points, arealength, inputAreaLength):
+    offset = arealength - int((arealength - inputAreaLength)/2) - inputAreaLength
     for p in points:
         p[0] += offset
         p[1] += offset
@@ -40,7 +48,8 @@ def offset_3d_coordinates(points, n, sn):
 
 # Generate the dynamic file
 def generate_files(area_length, dimensions, percentage, points):
-    generate_dynamic_file('../input/dynamic.txt', points, area_length)
+    generate_static_file('./input/static.txt', area_length, dimensions, percentage)
+    generate_dynamic_file('./input/dynamic.xyz', points, area_length)
 
 # main() function
 def main():
@@ -75,7 +84,7 @@ def main():
     rnd.shuffle(points)
 
     # Number of points to be chosen
-    target_points_count = int(len(points) * (float(args.percentage)/100))
+    target_points_count = int(int(math.pow(int(args.input_area_length), 3)) * (float(args.percentage)/100))
 
     # Choosing the percentage of points
     chosen_points = points[0:target_points_count]

@@ -6,12 +6,13 @@ import java.util.function.BiPredicate;
 public class GameOfLife3D {
 
     private static final Map<RuleSet, BiPredicate<Character, Integer>> RULES;
+    private boolean reachedMax = true;
 
     static {
         Map<RuleSet, BiPredicate<Character, Integer>> tmp = new HashMap<>();
 
         // Ruleset 1
-        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n <= 5 && n >= 4;
+        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n <= 3 && n >= 2;
         BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n == 3;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive45.or(deadToLive55));
 
@@ -21,8 +22,8 @@ public class GameOfLife3D {
         tmp.put(RuleSet.RULE_2, liveToLive16.or(deadToLive6));
 
         // Ruleset 3
-        BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && n >= 2 && n <= 3;
-        BiPredicate<Character, Integer> deadToLive3 = (s, n) -> s == 0 && n == 3;
+        BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && n <= 20 && n>=16;
+        BiPredicate<Character, Integer> deadToLive3 = (s, n) -> s == 0 && n >= 6;
         tmp.put(RuleSet.RULE_3, liveToLive23.or(deadToLive3));
 
         RULES = Collections.unmodifiableMap(tmp);
@@ -33,7 +34,7 @@ public class GameOfLife3D {
     private final int yLim;
     private final int zLim;
     private final RuleSet rule;
-    private double maxDistance = 0;
+    private int maxDistance = 0;
     private int livingCellsCount = 0;
     private int totalCells;
 
@@ -74,7 +75,7 @@ public class GameOfLife3D {
         this.maxDistance = 0;
         this.livingCellsCount = 0;
 
-        for (int z = 0; z < this.zLim; z++) {
+        for (int z = 0; z < this.zLim ; z++) {
             for (int x = 0; x < this.xLim; x++) {
                 for (int y = 0; y < this.yLim; y++) {
                     // Calculating the amount of live neighbours
@@ -90,7 +91,10 @@ public class GameOfLife3D {
 
                         // Calculating the distance and checking if greater than max
                         distanceToCenter = this.getDistanceToCenter(x, y, z);
-                        this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                        this.maxDistance = (int) Math.max(distanceToCenter, this.maxDistance);
+                        if(distanceToCenter >= xLim/2){
+                            reachedMax = false;
+                        }
                     } else if (this.board[z][x][y] == 1){
                         // This are the cells that die
                         deadCells.add(new int[]{x, y, z});
@@ -101,17 +105,18 @@ public class GameOfLife3D {
 
         // Setting the new dead cells
         deadCells.forEach(cell -> {
-            this.livingCellsCount++;
             this.board[cell[2]][cell[0]][cell[1]] = 0;//cell[2] = z,cell[0] = x, cell[1] = y
         });
 
         // Setting the new active cells
         activeCells.forEach(cell -> {
+            this.livingCellsCount++;
             this.board[cell[2]][cell[0]][cell[1]] = 1;
         });
 
         return activeCells;
     }
+
 
     /**
      * Counts the given live neighbours for a given cell
@@ -159,8 +164,8 @@ public class GameOfLife3D {
         return liveNeighbours;
     }
 
-    private double getDistanceToCenter(final int x, final int y, final int z) {
-        return Math.sqrt(Math.pow(x - this.xLim / 2.0, 2) + Math.pow(y - this.yLim / 2.0, 2) + Math.pow(z - this.zLim / 2.0, 2));
+    int getDistanceToCenter(final int x, final int y, final int z) {
+        return (int) Math.floor(Math.sqrt(Math.pow(x - this.xLim / 2.0,2)+Math.pow(y - this.yLim/2.0,2)+Math.pow(z-this.zLim/2.0,2)));
     }
 
     public double getMaxDistance() {
@@ -176,7 +181,15 @@ public class GameOfLife3D {
         return module >= 0 ? module : module + b;
     }
 
-    public double calculateMaxDistance() {
+    public boolean isReachedMax() {
+        return reachedMax;
+    }
+
+    public void setReachedMax(boolean reachedMax) {
+        this.reachedMax = reachedMax;
+    }
+
+    public int calculateMaxDistance() {
         double distanceToCenter;
         maxDistance = 0;
 
@@ -186,7 +199,7 @@ public class GameOfLife3D {
                     // Calculating the distance and checking if greater than max
                     if (this.board[z][x][y] == 1) {
                         distanceToCenter = this.getDistanceToCenter(x, y, z);
-                        this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                        this.maxDistance = (int) Math.max(distanceToCenter, this.maxDistance);
                     }
                 }
             }

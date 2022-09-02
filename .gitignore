@@ -7,12 +7,25 @@ target/classes/input.txt
 
 input/dynamic.txt
 
+<<<<<<< HEAD
+outputSimulation/living_percent_vs_time.txt
+
+outputSimulation/radius_vs_time.txt
+
+outputSimulation/
+
+input/static.txt
+=======
 target/classes/
 
 graphs/
+<<<<<<< HEAD
 
 python/gof2D/results/rule0/
 
 python/gof2D/results/rule1/
 
 python/gof2D/results/rule2/
+=======
+>>>>>>> graphicsGof2D
+>>>>>>> 3DGoF
