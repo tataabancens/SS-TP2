@@ -10,11 +10,11 @@ def generate_dynamic_file(filename, points, area_length):
     f = open(filename, 'w')
     # We provide only the dynamic configuration at time 0
     f.write('{}\n\n'.format(len(points)))
-
     # Adding the randomly generated
     for p in points:
+        distance_from_center = int(math.sqrt(math.pow(p[0]-area_length/2,2)+math.pow(p[1]-area_length/2,2)+math.pow(p[2]-area_length/2,2)))
         if len(p) == 3:
-            f.write('{} {} {}\n'.format(p[0], p[1], p[2]))
+            f.write('{} {} {} {}\n'.format(p[0], p[1], p[2],distance_from_center ))
     f.close()
 
 def generate_static_file(filename, area_length, dimensions, percentage):

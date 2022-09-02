@@ -12,6 +12,7 @@ public class ConfigParser {
     public static int zLim;
     public static double livingLimitedPercentage;
     public static double livingTotalPercentage = 0.0;
+    public static int totalCells;
     public static List<char[][]> board = new ArrayList<>();
 
     public static void ParseConfiguration(String dynamicFileName, String staticFileName) throws FileNotFoundException {
@@ -50,7 +51,7 @@ public class ConfigParser {
         }
 
         // Skipping the time of the file which is 0
-        sc.nextInt();
+        totalCells = sc.nextInt();
 
         while (sc.hasNext()){
             // Parsing the x position
@@ -65,6 +66,7 @@ public class ConfigParser {
             // Setting the board cell (x, y, z) as alive
             board.get(z)[x][y] = 1;
             livingCells++;
+            sc.nextLine();
         }
         double totalCells = xLim * yLim * zLim;
         livingTotalPercentage = ((double)livingCells / totalCells) * 100.0;
