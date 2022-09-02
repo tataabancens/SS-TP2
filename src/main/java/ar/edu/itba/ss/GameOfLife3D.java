@@ -22,8 +22,8 @@ public class GameOfLife3D {
         tmp.put(RuleSet.RULE_2, liveToLive16.or(deadToLive6));
 
         // Ruleset 3
-        BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && n < 12;
-        BiPredicate<Character, Integer> deadToLive3 = (s, n) -> s == 0 && n > 6;
+        BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && n <= 20 && n>=16;
+        BiPredicate<Character, Integer> deadToLive3 = (s, n) -> s == 0 && n >= 6;
         tmp.put(RuleSet.RULE_3, liveToLive23.or(deadToLive3));
 
         RULES = Collections.unmodifiableMap(tmp);
@@ -164,8 +164,8 @@ public class GameOfLife3D {
         return liveNeighbours;
     }
 
-    private int getDistanceToCenter(final int x, final int y, final int z) {
-        return (int) Math.floor((x - this.xLim / 2.0) + (y - this.yLim / 2.0) + (z - this.zLim / 2.0));
+    int getDistanceToCenter(final int x, final int y, final int z) {
+        return (int) Math.floor(Math.sqrt(Math.pow(x - this.xLim / 2.0,2)+Math.pow(y - this.yLim/2.0,2)+Math.pow(z-this.zLim/2.0,2)));
     }
 
     public double getMaxDistance() {

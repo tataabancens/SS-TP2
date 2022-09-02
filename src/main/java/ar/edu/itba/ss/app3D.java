@@ -59,7 +59,7 @@ public class app3D {
             GenerateOutputFile(pointsToWrite, i,gol);
         }
         //generateLivingFile(ConfigParser.totalCells, FlagParser.ruleSet, livingVsTime, LIVING_PERCENT_FILE);
-        AddToEvolutionStatisticsFile(ConfigParser.livingLimitedPercentage, FlagParser.ruleSet, radiusVsTime, RADIUS_FILE);
+        //AddToEvolutionStatisticsFile(ConfigParser.livingLimitedPercentage, FlagParser.ruleSet, radiusVsTime, RADIUS_FILE);
     }
     private static void GenerateOutputFile(List<int[]> cells, int iteration,GameOfLife3D gol) {
         try {
