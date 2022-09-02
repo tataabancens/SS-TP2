@@ -10,3 +10,9 @@ input/dynamic.txt
 target/classes/
 
 graphs/
+
+python/gof2D/results/rule0/
+
+python/gof2D/results/rule1/
+
+python/gof2D/results/rule2/
